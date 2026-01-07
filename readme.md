@@ -1,12 +1,12 @@
-Welcome to Armageddon!
+# Welcome to Armageddon!
 
-First Meeting
-01-04-25
-Team Leader: Larry
+### Meeting
+    01-04-25
+    Team Leader: Larry
 
 Requirements:
 
-infrastructure
+Infrastructure
 1. VPC name bos_vpc01
 2. CIDR == 10.26.0.0/16
 3. Public subnet == 10.26.1.0/24, 10.26.2.0/24
@@ -18,5 +18,6 @@ Security Group for RDS - ingress: mysql (3306) from EC2
 Security Group for EC2 - ingress: HTTP(80) and SSH(22) from your ip(not anywhere)
 Dont touch egress rules
 
-6-Jan-26 Fixes:
-    Add personal AWS Account ID to .json policy
+### Meeting 01-06-26 Fixes:
+    Added personal AWS Account ID to .json policy
+    When running cmd 6.1 - Switched default AWS region to us-east-1 via 'aws configure' command
