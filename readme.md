@@ -17,3 +17,6 @@ infrastructure
 Security Group for RDS - ingress: mysql (3306) from EC2
 Security Group for EC2 - ingress: HTTP(80) and SSH(22) from your ip(not anywhere)
 Dont touch egress rules
+
+6-Jan-26 Fixes:
+    Add personal AWS Account ID to .json policy
