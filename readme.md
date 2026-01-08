@@ -51,10 +51,10 @@ Running http://'ec2-public-ip'/add?note=my-first-note:
 2nd note:  
 <img width="765" height="351" alt="ec2-http-second-note" src="https://github.com/user-attachments/assets/bcc849fd-3e1a-4517-8326-2ca3093043f2" />  
 
-3rd note:
+3rd note:  
 <img width="760" height="368" alt="ec2-http-third-note" src="https://github.com/user-attachments/assets/7aedb1d4-3756-41fa-bfa4-52c089c08ac4" />  
 
-List:
+List:  
 <img width="762" height="333" alt="ec2-http-list" src="https://github.com/user-attachments/assets/497e4464-0915-420c-8f56-1f52c7fe0bda" />
 
 ---
