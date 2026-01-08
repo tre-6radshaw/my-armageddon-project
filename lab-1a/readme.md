@@ -164,27 +164,27 @@ Secrets Manager is better than storing creds in code/user-data because Secrets M
 ### Evidence for Audits
 See output for command:  
 'aws ec2 describe-security-groups --group-ids sg-'my-sg-group' > sg.json'  
-[sg.json](https://github.com/user-attachments/files/24484929/sg.json)
+[sg.json](https://github.com/user-attachments/files/24484929/sg.json)  
 <img width="900" height="121" alt="sg-json" src="https://github.com/user-attachments/assets/8178b9b2-9377-4a3c-820c-8e6917543507" />
 
 See output for command:  
 'aws rds describe-db-instances --db-instance-identifier bos-rds01 > rds.json'  
-[rds.json](https://github.com/user-attachments/files/24485003/rds.json)
+[rds.json](https://github.com/user-attachments/files/24485003/rds.json)  
 <img width="835" height="61" alt="rds-json" src="https://github.com/user-attachments/assets/02098142-0dbb-457d-9f08-355893e54e70" />
 
 See output for command:  
 'aws secretsmanager get-secret-value --secret-id bos/rds/mysql'  
-[secret.json](https://github.com/user-attachments/files/24485116/secret.json)
+[secret.json](https://github.com/user-attachments/files/24485116/secret.json)  
 <img width="880" height="141" alt="secret-json" src="https://github.com/user-attachments/assets/2a3b3d82-dc45-448a-8bf2-ad134c6284e7" />
 
 See output for command:  
 'aws ec2 describe-instances --instance-ids i-02dbc4c0286bc3fd7 > instance.json'
-[instance.json](https://github.com/user-attachments/files/24485145/instance.json)
+[instance.json](https://github.com/user-attachments/files/24485145/instance.json)  
 <img width="931" height="75" alt="instance-json" src="https://github.com/user-attachments/assets/32c01573-b26b-4073-8bf4-b9a1b4625e68" />
 
 See output for command:  
 'aws iam list-attached-role-policies --role-name bos-ec2-role01 > role-policies.json'  
-[role-policies.json](https://github.com/user-attachments/files/24485192/role-policies.json)
+[role-policies.json](https://github.com/user-attachments/files/24485192/role-policies.json)  
 <img width="867" height="72" alt="role-policies-json" src="https://github.com/user-attachments/assets/d51d6de4-ef6e-48af-b975-939fc989ddaf" />
 
 ---
