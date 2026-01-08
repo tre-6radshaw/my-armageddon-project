@@ -145,6 +145,20 @@ http://<EC2_PUBLIC_IP>/add?note=cloud_labs_are_real
 http://<EC2_PUBLIC_IP>/list
 <img width="467" height="348" alt="6 8list" src="https://github.com/user-attachments/assets/20d28cb1-e9af-4080-a70c-bcbe4ea6d4cd" />
 
+---
+### Short Answers:
+
+A. Why is DB inbound source restricted to the EC2 security group?
+
+We don't want our internal database with potentially sensitive information accessible to the public internet. This is a secure configuration that limits access.
+
+B. What port does MySQL use?
+
+Port 3306  
+
+C. Why is Secrets Manager better than storing creds in code/user-data?
+
+Secrets Manager is better than storing creds in code/user-data because Secrets Manager is a secure, centralized service with strong access controls and encryption that mitigates the potential for creds to be leaked.
 
 ---
 ### Evidence for Audits
