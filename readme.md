@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div align="center">
 
 # Welcome to Armageddon!
 ### Group: Brotherhood of Steel
