@@ -32,12 +32,16 @@ RDS-SG inbound rule displaying ec2-sg:
 EC2 Instance successfully operating over HTTP:  
 <img width="1002" height="458" alt="ec2-http" src="https://github.com/user-attachments/assets/07a2b5fe-4e3d-4144-baa5-af1c91d7675f" />  
 
+RDS Instance in Same VPC:  
+<img width="1318" height="938" alt="rds-in-vpc" src="https://github.com/user-attachments/assets/25ee8db4-473b-4a7b-be16-3b71b398cf15" />  
+
 IAM Role Attached to EC2 Instance:
 <img width="1332" height="880" alt="iam-role-ec2" src="https://github.com/user-attachments/assets/c6cdbb5a-df67-4077-a493-731e81dc5a37" />
 
+
 ---
 ### Application Proof
-
+#### Successful DB initialization / Inserting & Reading records from RDS
 Running http://'ec2-public-ip'/init:  
 <img width="1048" height="331" alt="ec2-http-init" src="https://github.com/user-attachments/assets/d3452fbe-ec64-41d0-bc89-a98d27119b66" />
 
@@ -54,8 +58,49 @@ List:
 <img width="762" height="333" alt="ec2-http-list" src="https://github.com/user-attachments/assets/497e4464-0915-420c-8f56-1f52c7fe0bda" />
 
 ---
-RDS Endpoint:
-<img width="688" height="332" alt="rds-endpoint" src="https://github.com/user-attachments/assets/614d5370-4a5f-411a-b5ee-fca28d1a233a" />
+### Verification Evidence
+CLI output proving connectivity and configuration:  
+<img width="688" height="332" alt="rds-endpoint" src="https://github.com/user-attachments/assets/614d5370-4a5f-411a-b5ee-fca28d1a233a" />  
+
+Browser output showing DB data:  
+Must connect via EC2 session manager, as DB is inaccessible from public internet
+<img width="1137" height="747" alt="ec2-connect-db" src="https://github.com/user-attachments/assets/6fdb3fb2-e75b-41ee-9d95-8132191730ea" />
+
+---
+### Technical Verification Using AWS CLI (Mandatory)
+
+6.1 - Verify EC2 Instance:  
+* Command: aws ec2 describe-instances --filters "Name=tag:Name,Values=bos-ec201" --query "Reservations[].Instances[].{InstanceId:InstanceId,State:State.Name}"
+* Expected:
+  * Instance ID returned  
+  * Instance state = running  
+<img width="1760" height="278" alt="verify-ec2-instance" src="https://github.com/user-attachments/assets/137b256d-cfa3-4d70-b28b-3ac75883a8d4" />  
+ 
+*****
+
+6.2 Verify IAM Role Attached to EC2
+* Command: aws ec2 describe-instances --instance-ids <INSTANCE_ID> --query "Reservations[].Instances[].IamInstanceProfile.Arn"
+* Expected:  
+  * ARN of an IAM instance profile (not null)
+<img width="1532" height="241" alt="iam-role-attached-to-ec2" src="https://github.com/user-attachments/assets/236eaf9d-b6ca-484b-ad0c-5769c20ab897" />
+
+*****
+
+6.3 Verify RDS Instance State
+* Command: aws rds describe-db-instances --db-instance-identifier bos-rds01 --query "DBInstances[].DBInstanceStatus"
+* Expected:
+    * Available
+<img width="1616" height="175" alt="rds-instance-state" src="https://github.com/user-attachments/assets/2072ba57-50f2-490e-b843-00cf246e7a05" />
+
+*****
+
+6.4 Verify RDS Endpoint (Connectivity Target)
+* Command: aws rds describe-db-instances --db-instance-identifier bos-rds01 --query "DBInstances[].Endpoint"
+* Expected
+    * Endpoint Address
+    * Port 3306
+<img width="1412" height="256" alt="rds-endpoint-connectivity-target" src="https://github.com/user-attachments/assets/a1235342-7964-4bb7-a17e-a51371268e9c" />
+
 
 ---
 ### Evidence for Audits
