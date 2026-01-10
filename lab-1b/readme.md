@@ -22,5 +22,10 @@ After lab has been properly built, let's break it and figure out the issue.
 
 ### New File Additions:
 From Larry's Repo:  
-* Download the lambda_ir_reporter.zip
+* Download the lambda_ir_reporter.zip into your terraform file directory
     * Leave it as .zip file
+* Add the lambda folder and two files contained within
+    * claude.py
+    * handler.py
+* Update the 1a_user_data.sh script with Larry's updated version
+    * Includes the cloudwatch agent
