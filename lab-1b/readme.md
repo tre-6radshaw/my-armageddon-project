@@ -83,3 +83,27 @@ SNS Alert Channel SNS Topic Name: lab-db-incidents aws sns create-topic --name l
     console > SNS > Topic > copy ARN
     my personal:
     arn:aws:sns:us-east-1:435830281557:bos-db-incidents
+
+    To configure error alerts to your provided email:
+
+    aws cloudwatch put-metric-alarm \
+    --alarm-name lab-db-connection-failure \
+    --metric-name DBConnectionErrors \
+    --namespace Lab/RDSApp \
+    --statistic Sum \
+    --period 300 \
+    --threshold 3 \
+    --comparison-operator GreaterThanOrEqualToThreshold \
+    --evaluation-periods 1 \
+    --alarm-actions <SNS_TOPIC_ARN>
+
+Be sure to:
+   * input your namespace: in this case 'bos'
+   * Input your sns topic ARN: arn:aws:sns:us-east-1:435830281557:bos-db-incidents
+
+>>> Alternate command: 
+    aws cloudwatch put-metric-data \
+    --namespace Lab/RDSApp \
+    --metric-name DBConnectionErrors \
+    --value 5 \
+    --unit Count
