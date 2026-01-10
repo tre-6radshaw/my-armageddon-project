@@ -19,3 +19,8 @@ Infrastructure
 -    Dont touch egress rules
 
 After lab has been properly built, let's break it and figure out the issue.
+
+### New File Additions:
+From Larry's Repo:  
+* Download the lambda_ir_reporter.zip
+    * Leave it as .zip file
