@@ -51,7 +51,8 @@ From Larry's Repo:
     * run 'chmod +x ./run_all_gates.sh'
 
 Next: run 'REGION=us-east-1 INSTANCE_ID=i-0123456789abcdef0 SECRET_ID=my-db-secret ./gate_secrets_and_role.sh'
-
+    * then 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a DB_ID=bos-rds01 ./gate_network_db.sh'
+    * then 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a SECRET_ID=bos/rds/mysql DB_ID=bos-rds01 ./run_all_gates.sh'
 Instance Id: i-02c3c992f563e021a
 
 Secrets name: bos/rds/mysql
