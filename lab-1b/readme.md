@@ -39,3 +39,5 @@ From Larry's Repo:
 * In output.tf file:
     * Verify last 2 output blocks are active and not in comment format
 * Add sns_topic.tf from Larry's repo
+* Add python folder
+    * include files within
