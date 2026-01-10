@@ -57,3 +57,5 @@ Instance Id: i-02c3c992f563e021a
 Secrets name: bos/rds/mysql
 
 DB-Identifier: bos-rds01
+
+Confirm your email is in the variables file for sns_endpoint in order to direct your pager
