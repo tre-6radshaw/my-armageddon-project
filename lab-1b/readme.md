@@ -28,6 +28,8 @@ Goal for 1b: After infrastructure has been properly built, let's break it and fi
 From Larry's Repo:  
 * Download the lambda_ir_reporter.zip into your terraform file directory
     * Leave it as .zip file
+* Create a lambda_ir_reporter directory
+    * Include handler.py file
 * Add the lambda folder and two files contained within
     * claude.py
     * handler.py
@@ -41,3 +43,17 @@ From Larry's Repo:
 * Add sns_topic.tf from Larry's repo
 * Add python folder
     * include files within
+
+
+* From within python folder:
+    * run 'chmod +x ./gate_secrets_and_role.sh'
+    * run 'chmod +x ./gate_network_db.sh'
+    * run 'chmod +x ./run_all_gates.sh'
+
+Next: run 'REGION=us-east-1 INSTANCE_ID=i-0123456789abcdef0 SECRET_ID=my-db-secret ./gate_secrets_and_role.sh'
+
+Instance Id: i-02c3c992f563e021a
+
+Secrets name: bos/rds/mysql
+
+DB-Identifier: bos-rds01
