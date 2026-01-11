@@ -149,3 +149,29 @@ See:
 ### Retrieving Secrets Manager values:
 
     >>> aws secretsmanager get-secret-value --secret-id bos/rds/mysql
+
+At this point, you should notice the DB password has been changed when you compare it to the known-good state.
+Update Secrets Manager to known good state.
+
+### Verify Recovery via curl command:
+
+    >>> curl http://<instanceIP>/init
+
+You should see as output:
+
+    >>> Initialized labdb + notes table.
+
+### Confirm Alarm Clears
+
+    >>> aws cloudwatch describe-alarms \
+      --alarm-name lab-db-connection-failure \
+      --query "MetricAlarms[].StateValue"
+
+    For the purposes of this lab, the alarm was manually set to OK since it was stuck on 'INSUFFICIENT DATA':
+
+    >>> aws cloudwatch set-alarm-state --alarm-name bos-db-connection-failure --state-value OK --state-reason "Manually set to OK for lab testing - no real issues"
+
+
+### Confirm Logs Normalize
+
+    >>> MSYS_NO_PATHCONV=1 aws logs filter-log-events --log-group-name /aws/ec2/bos-rds-app --filter-pattern "ERROR"
