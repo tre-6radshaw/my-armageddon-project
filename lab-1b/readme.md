@@ -50,10 +50,11 @@ From Larry's Repo:
     * run 'chmod +x ./gate_network_db.sh'
     * run 'chmod +x ./run_all_gates.sh'
 
-Next: run 'REGION=us-east-1 INSTANCE_ID=i-0123456789abcdef0 SECRET_ID=my-db-secret ./gate_secrets_and_role.sh'
-    * then 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a DB_ID=bos-rds01 ./gate_network_db.sh'
-    * then 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a SECRET_ID=bos/rds/mysql DB_ID=bos-rds01 ./run_all_gates.sh'
-Instance Id: i-02c3c992f563e021a
+Next, run the following, one at a time, in the following order:
+
+    >>> 'REGION=us-east-1 INSTANCE_ID=i-0123456789abcdef0 SECRET_ID=my-db-secret ./gate_secrets_and_role.sh'
+    >>> 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a DB_ID=bos-rds01 ./gate_network_db.sh'
+    >>> 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a SECRET_ID=bos/rds/mysql DB_ID=bos-rds01 ./run_all_gates.sh'
 
 Secrets name: bos/rds/mysql
 
@@ -62,7 +63,7 @@ DB-Identifier: bos-rds01
 Confirm your email is in the variables file for sns_endpoint in order to direct your pager
 
 
-### Breaking the Infrastructure
+## Breaking the Infrastructure
 
 Take your EC2 public IP and make it into a viewable page via http://<instance IP>/init to view the database
 
@@ -71,22 +72,30 @@ Head to AWS Secrets Manager > Secrets in AWS Console
 * Change DB password (simple modification like adding a character)
     * DB should now deny login
 
-SNS Alert Channel SNS Topic Name: lab-db-incidents aws sns create-topic --name lab-db-incidents Email Subscription (PagerDuty Simulation)
+### SNS Alert Channel  
+SNS Topic Name: lab-db-incidents: 
 
->>>aws sns subscribe \
+    >>>  aws sns create-topic \
+    --name lab-db-incidents
+    
+### Email Subscription (PagerDuty Simulation)
+
+    >>> aws sns subscribe \
     --topic-arn <TOPIC_ARN> \
     --protocol email \
     --notification-endpoint youremail@example.com
-    *  change email
+    
+    * change email to your desired email
 
-    To retrieve your ARN:
+### To retrieve your ARN:
+
     console > SNS > Topic > copy ARN
     my personal:
     arn:aws:sns:us-east-1:435830281557:bos-db-incidents
 
-To configure error alerts to your provided email:
+### To configure error alerts to your provided email:
 
-   >>>aws cloudwatch put-metric-alarm \
+    >>> aws cloudwatch put-metric-alarm \
     --alarm-name lab-db-connection-failure \
     --metric-name DBConnectionErrors \
     --namespace Lab/RDSApp \
@@ -97,20 +106,46 @@ To configure error alerts to your provided email:
     --evaluation-periods 1 \
     --alarm-actions <SNS_TOPIC_ARN>
 
-Be sure to:
-   * input your namespace: in this case 'bos' or 'bos-rds01'
-   * Input your sns topic ARN: arn:aws:sns:us-east-1:435830281557:bos-db-incidents
+    Be sure to:
+    * input your namespace: in this case 'bos' or 'bos-rds01'
+    * Input your sns topic ARN: arn:aws:sns:us-east-1:435830281557:bos-db-incidents
 
->>> Alternate command: 
+    >>> Alternate command: 
     aws cloudwatch put-metric-data \
     --namespace Lab/RDSApp \
     --metric-name DBConnectionErrors \
     --value 5 \
     --unit Count
 
-Checking Application Logs:
->>>aws logs filter-log-events \
---log-group-name /aws/ec2/lab-rds-app \
---filter-pattern "ERROR"
 
-For gitbash users, you may need to prefix this command with MSYS_NO_PATHCONV=1, as gitbash may misinterpret the path and output an error
+
+### Checking Application Logs:
+For gitbash users, you may need to prefix this command and others with the environment variable below, as gitbash may misinterpret the path and output an error:
+
+    MSYS_NO_PATHCONV=1
+See:
+
+    >>> aws logs filter-log-events \
+    --log-group-name /aws/ec2/lab-rds-app \
+    --filter-pattern "ERROR"
+    
+    (replacing 'lab' with 'bos')
+
+    MSYS_NO_PATHCONV=1 aws logs filter-log-events --log-group-name /aws/ec2/bos-rds-app --filter-pattern "ERROR"
+
+
+### Getting AWS SSM parameters:
+
+    >>>  aws ssm get-parameters \
+        --names /lab/db/endpoint /lab/db/port /lab/db/name \
+        --with-decryption
+    
+    (replacing 'lab' with 'bos')
+
+    -or-
+
+    $ MSYS_NO_PATHCONV=1 aws ssm get-parameters --names /bos/db/endpoint /bos/db/port /bos/db/name --with-decryption
+
+### Retrieving Secrets Manager values:
+
+    >>> aws secretsmanager get-secret-value --secret-id bos/rds/mysql
