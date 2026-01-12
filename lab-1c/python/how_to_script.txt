@@ -1,0 +1,117 @@
+How to Script (using gate_secrets_and_role.sh as the model)
+
+When students say “I don’t know how to script,” what they usually mean is:
+
+    “I don’t know how to turn a checklist into something repeatable.”
+
+That’s all scripting is.
+A script is a repeatable checklist that produces evidence and a clear PASS/FAIL result.
+
+gate_secrets_and_role.sh is a perfect example because it’s not “coding for fun.” It’s coding for operations.
+
+1) A script starts with a contract
+At the top of the script we define:
+    What it checks
+    What inputs it expects (REGION, INSTANCE_ID, SECRET_ID)
+    What it produces (stdout + gate_result.json)
+    What exit codes mean (0 PASS / 2 FAIL / 1 ERROR)
+
+This is how scripts become tools instead of “random command dumps.”
+
+
+2) Strict mode prevents “works on my laptop”
+These lines matter:
+
+set -euo pipefail
+
+They prevent 80% of beginner bugs:
+    -e → stop on errors
+    -u → error if a variable wasn’t set
+    pipefail → if any part of a pipeline fails, the script fails
+
+That’s enforcement. In real infrastructure work, enforcement is kindness.
+
+3) Inputs are variables, not hard-coded values
+Instead of hard-coding secrets/IDs, we do:
+      
+    REGION="${REGION:-us-east-1}"
+    INSTANCE_ID="${INSTANCE_ID:-}"
+    SECRET_ID="${SECRET_ID:-}"
+
+This teaches the real world habit:
+
+“Scripts should be reusable across environments, accounts, and teams.”
+
+4) Every check follows the same pattern
+Each check is:
+    Run a command
+    Decide PASS/FAIL
+    Collect messages
+
+Example pattern:  
+    aws secretsmanager describe-secret ... >/dev/null 2>&1 \
+      && echo "PASS ..." \
+      || (echo "FAIL ..."; exit 1)
+
+Students should notice:
+    stdout is clean
+    error details can be pulled later
+    the script prints what matters
+
+5) Functions make scripts readable
+We use small helpers like:
+    have_cmd → “is aws installed?”
+    add_failure → “record a failure”
+    usage → “how to run this script”
+
+This is how you keep a script from becoming spaghetti.
+
+6) Evidence is the product
+The script writes JSON like:
+    what was checked
+    what failed
+    what to do next
+
+That output becomes:
+    a grade artifact
+    a runbook artifact
+    a CI/CD gate artifact
+
+That is modern platform engineering. Not vibes. Evidence.
+
+7) Exit codes are how Jenkins “understands”
+This is the entire DevOps bridge:
+    Jenkins doesn’t read your feelings
+    Jenkins reads exit codes
+
+So the script must end with:
+    exit 0 for pass
+    exit 2 for fail
+
+That’s how “operator judgement” becomes “automated policy.”
+
+✅ One book (best single book for brave beginners)
+
+The Linux Command Line by William Shotts: https://github.com/BalericaAI/armageddon/blob/main/SEIR_Foundations/LAB1/python/Shotts-W.-E.-Jr.-The-Linux-Command-Line-A-Complete-Introduction-2012.pdf
+It’s designed for new command-line users and includes shell scripting chapters. 
+
+If you read only:
+    variables
+    quoting
+    exit codes
+    functions
+    pipes
+
+You will level up quickly.
+
+✅ One repo (simple Bash scripting guide, readable)
+Introduction to Bash Scripting (open-source ebook repo) 
+https://github.com/BalericaAI/introduction-to-bash-scripting
+
+This is good because it’s structured like a small course and doesn’t require hunting.
+
+✅ One repo (for students already using Microsoft tooling / Azure context)
+https://github.com/BalericaAI/bash-for-beginners
+
+Great for your SEIR-I crowd because it fits the “cloud ops scripting” vibe without becoming academic.
+  
