@@ -49,29 +49,36 @@ From within python folder run the following, one at a time, in the following ord
 
     >>> 'chmod +x ./gate_secrets_and_role.sh'
     >>> 'chmod +x ./gate_network_db.sh'
-    >>> 'chmod +x ./run_all_gates.sh'
+    >>> 'chmod +x ./run_all_gates.sh'  
+    
+<img width="877" height="205" alt="apply_permissions" src="https://github.com/user-attachments/assets/2a3b6180-7a3f-457b-a664-f8077b0d23bb" />
 
 Next, run the following, one at a time, in the following order:
 
     >>> 'REGION=us-east-1 INSTANCE_ID=i-0123456789abcdef0 SECRET_ID=my-db-secret ./gate_secrets_and_role.sh'
     >>> 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a DB_ID=bos-rds01 ./gate_network_db.sh'
     >>> 'REGION=us-east-1 INSTANCE_ID=i-02c3c992f563e021a SECRET_ID=bos/rds/mysql DB_ID=bos-rds01 ./run_all_gates.sh'
+<img width="1303" height="492" alt="gate-secrets-role-test" src="https://github.com/user-attachments/assets/a20a9f40-c33b-48a2-9c89-668cd4a85f90" />  
 
-Secrets name: bos/rds/mysql
+<img width="941" height="467" alt="gate-network-db-test" src="https://github.com/user-attachments/assets/262fbb31-415d-4a33-a71a-4ce113c4c6a2" />  
 
-DB-Identifier: bos-rds01
+<img width="1151" height="991" alt="run-all-test" src="https://github.com/user-attachments/assets/4bd34d18-0da4-46a8-871f-f0975b4b9b2e" />  
 
-Confirm your email is in the variables file for sns_endpoint in order to direct your pager
+
+  *   Confirm your email is in the variables file for sns_endpoint in order to direct your pager
 
 
 ## Breaking the Infrastructure
 
 Take your EC2 public IP and make it into a viewable page via http://<instance IP>/init to view the database
 
-Head to AWS Secrets Manager > Secrets in AWS Console
+Head to AWS Console > AWS Secrets Manager > Secrets  
 * Retrieve secrets value
 * Change DB password (simple modification like adding a character)
     * DB should now deny login
+
+<img width="1126" height="196" alt="db-error" src="https://github.com/user-attachments/assets/0e1ba92c-9d4e-4ecc-8c92-8349940823cc" />
+
 
 ### SNS Alert Channel  
 SNS Topic Name: lab-db-incidents: 
@@ -87,6 +94,10 @@ SNS Topic Name: lab-db-incidents:
     --notification-endpoint youremail@example.com
     
     * change email to your desired email
+
+<img width="1221" height="132" alt="sns-confirmation" src="https://github.com/user-attachments/assets/e7967279-f687-459f-9b0b-632d627d7b53" />  
+
+<img width="1731" height="768" alt="sns-email-confirm" src="https://github.com/user-attachments/assets/15bdea6c-08fe-4665-b4bd-dda16d2ff3ee" />
 
 ### To retrieve your ARN:
 
@@ -119,9 +130,12 @@ SNS Topic Name: lab-db-incidents:
     --unit Count
 
 
+<img width="1890" height="1131" alt="cloudwatch-error-notif" src="https://github.com/user-attachments/assets/15bc3fe3-8c9c-49ac-b4c7-e331cef26939" />  
+
+<img width="1918" height="1033" alt="in-alarm" src="https://github.com/user-attachments/assets/3f09a6f3-db72-4e77-92bf-3fa7cfe9d991" />  
 
 ### Checking Application Logs:
-For gitbash users, you may need to prefix this command and others with the environment variable below, as gitbash may misinterpret the path and output an error:
+For Windows Git Bash users, you may need to prefix this command and others with the environment variable below, as gitbash may misinterpret the path and output an error:
 
     MSYS_NO_PATHCONV=1
 See:
@@ -147,6 +161,9 @@ See:
 
     $ MSYS_NO_PATHCONV=1 aws ssm get-parameters --names /bos/db/endpoint /bos/db/port /bos/db/name --with-decryption
 
+<img width="1823" height="640" alt="ssm-parameters" src="https://github.com/user-attachments/assets/4db3a62e-fd45-491d-ac38-31212cc6a613" />
+
+
 ### Retrieving Secrets Manager values:
 
     >>> aws secretsmanager get-secret-value --secret-id bos/rds/mysql
@@ -158,9 +175,13 @@ Update Secrets Manager to known good state.
 
     >>> curl http://<instanceIP>/init
 
+
+
 You should see as output:
 
     >>> Initialized labdb + notes table.
+    
+<img width="867" height="56" alt="curl-db" src="https://github.com/user-attachments/assets/cb7e86a9-da1b-4771-b642-5531e91d8887" />
 
 ### Confirm Alarm Clears
 
@@ -186,6 +207,7 @@ You should see as output:
       --alarm-name lab-db-connection-success \
       --query "MetricAlarms[].StateValue"
      
+<img width="1242" height="102" alt="alarm-ok" src="https://github.com/user-attachments/assets/04baaebe-c2f7-4c3b-8451-75089ffc3f6f" />  
 
     For the purposes of this lab, the alarm was manually set to OK since it was stuck on 'INSUFFICIENT DATA':
 
@@ -195,3 +217,5 @@ You should see as output:
 ### Confirm Logs Normalize
 
     >>> MSYS_NO_PATHCONV=1 aws logs filter-log-events --log-group-name /aws/ec2/bos-rds-app --filter-pattern "ERROR"
+
+<img width="1708" height="873" alt="logs-normalize" src="https://github.com/user-attachments/assets/e2c63bf2-0aba-4fd9-a601-0f2e9bc15160" />
