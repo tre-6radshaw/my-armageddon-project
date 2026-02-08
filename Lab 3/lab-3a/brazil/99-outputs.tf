@@ -102,3 +102,7 @@ output "gru_alb_logs_bucket_name" {
 output "gru_tgw_id" {
   value = aws_ec2_transit_gateway.gru_tgw01.id
 }
+
+output "gru_vpc_cidr" {
+  value = var.vpc_cidr
+}

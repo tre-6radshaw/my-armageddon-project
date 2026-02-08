@@ -1,0 +1,35 @@
+01 — DATA RESIDENCY PROOF
+========================
+
+Generated (UTC): 20260208T215720Z
+Target DB Identifier: edo-rds01
+Authorized DB Region: ap-northeast-1 (Tokyo)
+Disallowed DB Region: sa-east-1 (São Paulo)
+
+✅ TOKYO PRESENCE CHECK: PASS
+- Database exists in Tokyo as required.
+Tokyo DB Summary:
+{
+  "DBInstanceIdentifier": "edo-rds01",
+  "Engine": "mysql",
+  "DBInstanceClass": "db.t3.micro",
+  "AvailabilityZone": "ap-northeast-1d",
+  "MultiAZ": false,
+  "StorageEncrypted": false,
+  "PubliclyAccessible": false,
+  "Endpoint": "edo-rds01.cpwmoose6ffl.ap-northeast-1.rds.amazonaws.com",
+  "Region": "ap-northeast-1",
+  "VpcId": "vpc-0934dc152143e3b72",
+  "VpcSecurityGroups": [
+    "sg-0f5f86ad4a42091fb"
+  ]
+}
+
+✅ SÃO PAULO ABSENCE CHECK: PASS
+- No database with this identifier exists in São Paulo.
+
+AUDITOR NOTES
+-------------
+- Proof generated using AWS RDS control-plane APIs (DescribeDBInstances).
+- Demonstrates enforced data residency: database located only in Tokyo.
+- Supports APPI / data-sovereignty compliance requirements.
